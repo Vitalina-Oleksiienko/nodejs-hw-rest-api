@@ -36,7 +36,7 @@ router.delete('/:id', idValidate, async (req, res, next) => {
   return res.status(404).json({ message: 'Not found' })
 })
 
-router.patch('/:id', idValidate, updateValidate, async (req, res, next) => {
+router.put('/:id', idValidate, updateValidate, async (req, res, next) => {
   const { id } = req.params
   const contact = await model.updateContact(id, req.body)
   if (contact) {
