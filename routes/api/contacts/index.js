@@ -18,8 +18,3 @@ router.patch('/:id/favorite', idValidate, updateValidateFavorite, updateContact)
 
 export default router
 
-router.patch('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
-
-module.exports = router

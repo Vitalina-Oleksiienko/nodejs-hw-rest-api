@@ -1,5 +1,5 @@
-import pkg from 'mongoose'
-const { connect, connection } = pkg
+import mongoose from 'mongoose'
+const { connect, connection } = mongoose
 
 const uri = process.env.URI_DB
 
