@@ -10,3 +10,4 @@ export const HttpCode = {
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
 }
+export const CLOUD_FOLDER_AVATARS='NodeApi'
