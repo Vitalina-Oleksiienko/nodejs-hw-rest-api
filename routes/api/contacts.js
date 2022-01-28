@@ -1,48 +1,20 @@
 import { Router } from 'express'
-import model from '../../model/index'
-import { createValidate, updateValidate, idValidate } from './validation'
+import { getContacts, getContactById, addContact, removeContact, updateContact} from '../../../controllers/contacts'
+import { createValidate, updateValidate, idValidate, updateValidateFavorite } from './validation'
+import guard from '../../../middlewares/guard'
 
-//const express = require('express')
 const router = new Router()
 
-router.get('/', async (req, res, next) => {
-  const contacts = await model.listContacts()
-  return res.status(200).json(contacts)
-})
+router.get('/', guard, getContacts)
 
-router.get('/:id', idValidate, async (req, res, next) => {
-  const { id } = req.params
-  const getContact = await model.getContactById(id)
-  if (getContact) {
-    return res.status(200).json(getContact)
-  }
-  return res.status(404).json({ message: 'Not found' })
-})
+router.get('/:id', guard, idValidate, getContactById)
 
-router.post('/', createValidate, async (req, res, next) => {
-  if (req.body) {
-    const newContact = await model.addContact(req.body)
-    return res.status(201).json(newContact)
-  }
-  return res.status(400).json({ message: 'Missing required name field' })
-})
+router.post('/', guard, createValidate, addContact)
 
-router.delete('/:id', idValidate, async (req, res, next) => {
-  const { id } = req.params
-  const delContact = await model.removeContact(id)
-  if (delContact) {
-    return res.status(200).json({ message: 'Contact deleted' })
-  }
-  return res.status(404).json({ message: 'Not found' })
-})
+router.delete('/:id', guard, idValidate, removeContact)
 
-router.put('/:id', idValidate, updateValidate, async (req, res, next) => {
-  const { id } = req.params
-  const contact = await model.updateContact(id, req.body)
-  if (contact) {
-    return res.status(201).json(contact)
-  }
-  return res.status(404).json({ message: 'Not found' })
-})
+router.put('/:id', guard, idValidate, updateValidate, updateContact)
+
+router.patch('/:id/favorite', guard, idValidate, updateValidateFavorite, updateContact)
 
 export default router
