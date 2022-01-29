@@ -9,4 +9,6 @@ export const HttpCode = {
   NOT_FOUND: 404,
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
+  SE: 503,
 }
+export const CLOUD_FOLDER_AVATARS='NodeApi'

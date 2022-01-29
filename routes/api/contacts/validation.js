@@ -1,7 +1,7 @@
 import Joi from 'joi'
-import pkg from 'mongoose'
+import mongoose from 'mongoose'
 
-const { Types } = pkg
+const { Types } = mongoose
 
 const createSchema = Joi.object({
   name: Joi.string().min(2).max(30).required(),
