@@ -1,5 +1,6 @@
 import repositoryContacts from '../../repository/contacts'
 import { HttpCode } from '../../libs/constants'
+import { CustomError } from '../../libs/custom-error'
 
 const getContacts = async (req, res, next) => {
   const { id: userId } = req.user
@@ -14,7 +15,7 @@ const getContactById = async (req, res, next) => {
   if (getContact) {
     return res.status(HttpCode.OK).json( {status: 'success', code: HttpCode.OK, data: { getContact } })
   }
-  return res.status(HttpCode.NOT_FOUND).json({ status: 'error', code: HttpCode.NOT_FOUND, message: 'Not found' })
+  throw new CustomError(HttpCode.NOT_FOUND, 'Not found')
 }
 
 const addContact = async (req, res, next) => {
@@ -23,7 +24,7 @@ const addContact = async (req, res, next) => {
     const newContact = await repositoryContacts.addContact(userId, req.body)
     return res.status(HttpCode.CREATED).json({ status: 'success', code: HttpCode.OK, data: { contact: newContact } })
   }
-  return res.status(HttpCode.BAD_REQUEST).json({ status: 'error', code: HttpCode.BAD_REQUEST, message: 'Missing required name field' })
+  throw new CustomError(HttpCode.BAD_REQUEST, 'Missing required name field')
 }
 
 const removeContact = async (req, res, next) => {
@@ -33,7 +34,7 @@ const removeContact = async (req, res, next) => {
   if (delContact) {
     return res.status(HttpCode.OK).json( {status: 'success', code: HttpCode.OK, data: { delContact } })
   }
-  return res.status(HttpCode.NOT_FOUND).json({ status: 'error', code: HttpCode.NOT_FOUND, message: 'Not found' })
+  throw new CustomError(HttpCode.NOT_FOUND, 'Not found')
 }
 
 const updateContact = async (req, res, next) => {
@@ -43,7 +44,7 @@ const updateContact = async (req, res, next) => {
   if (contact) {
     return res.status(HttpCode.OK).json({ status: 'success', code: HttpCode.OK, data: { contact } })
   }
-  return res.status(HttpCode.NOT_FOUND).json({ status: 'error', code: HttpCode.NOT_FOUND, message: 'Not found' })
+  throw new CustomError(HttpCode.NOT_FOUND, 'Not found')
 }
 
 export { getContacts, getContactById, addContact, removeContact, updateContact }
